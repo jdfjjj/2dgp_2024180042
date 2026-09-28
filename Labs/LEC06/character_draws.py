@@ -72,6 +72,9 @@ def draw_ca():
 
 def draw_triangle():
     print('TRIANGLE')
+    draw_ab()
+    draw_bc()
+    draw_ca()
     pass
 
 while True:
