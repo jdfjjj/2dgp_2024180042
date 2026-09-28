@@ -44,3 +44,8 @@ def draw_circle():
 def draw_top():
 	for x in range(RECT_LEFT, RECT_RIGHT + 1, 5):
 		draw_character(x, RECT_TOP)
+
+
+def draw_right():
+	for y in range(RECT_TOP, RECT_BOTTOM - 1, -5):
+		draw_character(RECT_RIGHT, y)
