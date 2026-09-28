@@ -107,3 +107,12 @@ def repeat_paths():
 		draw_circle()
 		draw_rectangle()
 		draw_triangle()
+
+
+def main():
+	initialize()
+	repeat_paths()
+
+
+if __name__ == '__main__':
+	main()
