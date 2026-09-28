@@ -94,3 +94,9 @@ def draw_bc():
 
 def draw_ca():
 	draw_segment(TRIANGLE_C, TRIANGLE_A)
+
+
+def draw_triangle():
+	draw_ab()
+	draw_bc()
+	draw_ca()
