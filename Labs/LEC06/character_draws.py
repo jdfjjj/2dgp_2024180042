@@ -60,6 +60,14 @@ def draw_rectangle():
 
 def draw_ab():
     print('AB')
+    x0, y0 = 100, 100
+    x1, y1 = 700, 100
+    n = 100
+    for step in range(n + 1):
+        t = step / n
+        x = x0 + (x1 - x0) * t
+        y = y0 + (y1 - y0) * t
+        draw_character(x, y)
     pass
 
 def draw_bc():
