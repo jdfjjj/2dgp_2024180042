@@ -19,7 +19,7 @@ def move_circle():
         character.draw(x, y)
         update_canvas()
         delay(0.01)
-    pass 
+    pass
 
 def draw_top():
     print('TOP')
