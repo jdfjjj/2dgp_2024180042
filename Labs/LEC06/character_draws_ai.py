@@ -33,3 +33,9 @@ def circle_position(angle):
 	x = CENTER_X + CIRCLE_RADIUS * math.cos(radians)
 	y = CENTER_Y + CIRCLE_RADIUS * math.sin(radians)
 	return x, y
+
+
+def draw_circle():
+	for angle in range(360):
+		x, y = circle_position(angle)
+		draw_character(x, y)
