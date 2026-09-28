@@ -66,3 +66,9 @@ def draw_rectangle():
 	draw_right()
 	draw_bottom()
 	draw_left()
+
+
+def interpolate_position(start, end, progress):
+	x = start[0] + (end[0] - start[0]) * progress
+	y = start[1] + (end[1] - start[1]) * progress
+	return x, y
