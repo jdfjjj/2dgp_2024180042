@@ -10,6 +10,9 @@ RECT_LEFT = 50
 RECT_RIGHT = 750
 RECT_BOTTOM = 50
 RECT_TOP = 550
+TRIANGLE_A = (100, 100)
+TRIANGLE_B = (700, 100)
+TRIANGLE_C = (400, 500)
 
 character = None
 
@@ -79,3 +82,7 @@ def draw_segment(start, end, steps=100):
 		progress = step / steps
 		x, y = interpolate_position(start, end, progress)
 		draw_character(x, y)
+
+
+def draw_ab():
+	draw_segment(TRIANGLE_A, TRIANGLE_B)
