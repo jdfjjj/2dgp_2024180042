@@ -54,3 +54,8 @@ def draw_right():
 def draw_bottom():
 	for x in range(RECT_RIGHT, RECT_LEFT - 1, -5):
 		draw_character(x, RECT_BOTTOM)
+
+
+def draw_left():
+	for y in range(RECT_BOTTOM, RECT_TOP + 1, 5):
+		draw_character(RECT_LEFT, y)
