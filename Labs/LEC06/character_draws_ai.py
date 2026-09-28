@@ -86,3 +86,7 @@ def draw_segment(start, end, steps=100):
 
 def draw_ab():
 	draw_segment(TRIANGLE_A, TRIANGLE_B)
+
+
+def draw_bc():
+	draw_segment(TRIANGLE_B, TRIANGLE_C)
