@@ -20,27 +20,33 @@ def move_circle():
 
 def draw_top():
     print('TOP')
-    for x in range(50, 750, 5):
-       draw_character(x)
+    for x in range(50, 751, 5):
+       draw_character(x, 550)
     pass
 
-def draw_character(x):
+def draw_character(x, y):
     clear_canvas()
-    character.draw(x, 550)
+    character.draw(x, y)
     update_canvas()
     delay(0.01)
     pass
 
-def draw_right():
+def move_right():
     print('RIGHT')
+    for y in range(550, 49, -5):
+        draw_character(750, y)
     pass
 
 def draw_bottom():
     print('BOTTOM')
+    for x in range(750, 49, -5):
+        draw_character(x, 50)
     pass
 
 def draw_left():
     print('LEFT')
+    for y in range(50, 551, 5):
+        draw_character(50, y)
     pass
 
 
