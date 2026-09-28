@@ -72,6 +72,14 @@ def draw_ab():
 
 def draw_bc():
     print('BC')
+    x0, y0 = 700, 100
+    x1, y1 = 400, 500
+    n = 100
+    for step in range(n + 1):
+        t = step / n
+        x = x0 + (x1 - x0) * t
+        y = y0 + (y1 - y0) * t
+        draw_character(x, y)
     pass
 
 def draw_ca():
