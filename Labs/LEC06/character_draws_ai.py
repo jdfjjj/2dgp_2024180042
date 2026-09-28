@@ -26,3 +26,10 @@ def draw_character(x, y):
 	update_canvas()
 	delay(0.01)
 	get_events()
+
+
+def circle_position(angle):
+	radians = math.radians(angle)
+	x = CENTER_X + CIRCLE_RADIUS * math.cos(radians)
+	y = CENTER_Y + CIRCLE_RADIUS * math.sin(radians)
+	return x, y
