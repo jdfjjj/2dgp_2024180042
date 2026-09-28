@@ -39,3 +39,8 @@ def draw_circle():
 	for angle in range(360):
 		x, y = circle_position(angle)
 		draw_character(x, y)
+
+
+def draw_top():
+	for x in range(RECT_LEFT, RECT_RIGHT + 1, 5):
+		draw_character(x, RECT_TOP)
