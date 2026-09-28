@@ -58,6 +58,18 @@ def draw_rectangle():
     draw_left()
     pass
 
+def draw_ab():
+    print('AB')
+    pass
+
+def draw_bc():
+    print('BC')
+    pass
+
+def draw_ca():
+    print('CA')
+    pass
+
 def draw_triangle():
     print('TRIANGLE')
     pass
