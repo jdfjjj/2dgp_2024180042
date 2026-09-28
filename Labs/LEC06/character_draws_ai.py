@@ -59,3 +59,10 @@ def draw_bottom():
 def draw_left():
 	for y in range(RECT_BOTTOM, RECT_TOP + 1, 5):
 		draw_character(RECT_LEFT, y)
+
+
+def draw_rectangle():
+	draw_top()
+	draw_right()
+	draw_bottom()
+	draw_left()
