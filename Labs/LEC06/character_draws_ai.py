@@ -100,3 +100,10 @@ def draw_triangle():
 	draw_ab()
 	draw_bc()
 	draw_ca()
+
+
+def repeat_paths():
+	while True:
+		draw_circle()
+		draw_rectangle()
+		draw_triangle()
