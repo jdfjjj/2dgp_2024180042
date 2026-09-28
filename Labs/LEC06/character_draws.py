@@ -8,14 +8,14 @@ open_canvas(800, 600)
 character = load_image('character.png')
 
 
-def move_circle():
+def draw_circle():
     print('CIRCLE')
     for degree in range(360):
         theta = math.radians(degree)
         x = 400 + 200 * math.cos(theta)
         y = 300 + 200 * math.sin(theta)
         # 캐릭터 이미지 표시
-    draw_character(x, y)
+        draw_character(x, y)
     pass
 
 def draw_top():
@@ -31,7 +31,7 @@ def draw_character(x, y):
     delay(0.01)
     pass
 
-def move_right():
+def draw_right():
     print('RIGHT')
     for y in range(550, 49, -5):
         draw_character(750, y)
@@ -53,9 +53,9 @@ def draw_left():
 def draw_rectangle():
     print('RECTANGLE')
     draw_top()
-    draw_left()
-    draw_bottom()
     draw_right()
+    draw_bottom()
+    draw_left()
     pass
 
 def draw_triangle():
@@ -63,7 +63,7 @@ def draw_triangle():
     pass
 
 while True:
-    # draw_circle()
+    draw_circle()
     draw_rectangle()
     draw_triangle()
     pass
