@@ -18,3 +18,11 @@ def initialize():
 	global character
 	open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
 	character = load_image('character.png')
+
+
+def draw_character(x, y):
+	clear_canvas()
+	character.draw(x, y)
+	update_canvas()
+	delay(0.01)
+	get_events()
