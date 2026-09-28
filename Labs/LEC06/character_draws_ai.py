@@ -72,3 +72,10 @@ def interpolate_position(start, end, progress):
 	x = start[0] + (end[0] - start[0]) * progress
 	y = start[1] + (end[1] - start[1]) * progress
 	return x, y
+
+
+def draw_segment(start, end, steps=100):
+	for step in range(steps + 1):
+		progress = step / steps
+		x, y = interpolate_position(start, end, progress)
+		draw_character(x, y)
