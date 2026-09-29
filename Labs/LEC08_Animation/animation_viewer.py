@@ -13,17 +13,15 @@ def handle_events():
             close_canvas()
             exit()
 
-
-frame = 0
-
-for i in range(6 * 5):
-    clear_canvas()
-    character.clip_draw(frame * 80, 287, 80, 75, 400, 300, 400, 375)
-    update_canvas()
-    frame = (frame + 1) % 6
-    delay(0.1)
-    handle_events()
-
-delay(1, 0)
+while True:
+    frame = 0
+    for i in range(6 * 5):
+        clear_canvas()
+        character.clip_draw(frame * 80, 287, 80, 75, 400, 300, 400, 375)
+        update_canvas()
+        frame = (frame + 1) % 6
+        delay(0.1)
+        handle_events()
+    delay(1.0)
 
 close_canvas()
