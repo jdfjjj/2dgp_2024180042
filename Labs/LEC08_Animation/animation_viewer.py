@@ -22,5 +22,6 @@ for i in range(6):
     update_canvas()
     frame = (frame + 1) % 6
     delay(0.1)
+    handle_events()
 
 close_canvas()
