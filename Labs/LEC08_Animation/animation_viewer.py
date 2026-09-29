@@ -7,6 +7,7 @@ character = load_image('hero_spritesheet.png')
 walk_frames = [(i * 80, 287, 80, 75) for i in range(6)]
 run_frames = [(i * 80, 194, 80, 75) for i in range(6)]
 jump_frames = [(i * 80, 107, 80, 75) for i in range(3)]
+death_frames = [(left, 107, 85, 75) for left in (258, 327, 412, 503)]
 
 def handle_events():
     for event in get_events():
@@ -33,3 +34,4 @@ while True:
     play_animation(walk_frames, 0.1)    # 걷기
     play_animation(run_frames, 0.06)    # 뛰기
     play_animation(jump_frames, 0.15)   # 점프
+    play_animation(death_frames, 0.2)    # 죽음
