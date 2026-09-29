@@ -3,6 +3,7 @@ from pico2d import *
 open_canvas()
 
 character = load_image('hero_spritesheet.png')
+background = load_image('background.png')
 
 walk_frames = [(i * 80, 287, 80, 75) for i in range(6)]
 run_frames = [(i * 80, 194, 80, 75) for i in range(6)]
@@ -23,6 +24,7 @@ def handle_events():
 def draw_frame(frames, frame, y):
     left, bottom, width, height = frames[frame]
     clear_canvas()
+    background.draw(400, 300)
     character.clip_draw(left, bottom, width, height, 400, y, width * 5, height * 5)
     update_canvas()
 
