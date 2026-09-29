@@ -9,7 +9,7 @@ run_frames = [(i * 80, 194, 80, 75) for i in range(6)]
 jump_frames = [(i * 80, 107, 80, 75) for i in range(3)]
 death_frames = [(left, 107, 85, 75) for left in (258, 327, 412, 503)]
 
-jump_heights = [0, 80, 120]   # 점프 프레임별로 위로 띄울 높이
+jump_heights = [0, 80, 120]   
 
 def handle_events():
     for event in get_events():
@@ -20,19 +20,24 @@ def handle_events():
             close_canvas()
             exit()
 
+def draw_frame(frames, frame, y):
+    left, bottom, width, height = frames[frame]
+    clear_canvas()
+    character.clip_draw(left, bottom, width, height, 400, y, width * 5, height * 5)
+    update_canvas()
+
 def play_animation(frames, frame_delay, heights=None):
     frame = 0
     for i in range(len(frames) * 5):
-        left, bottom, width, height = frames[frame]
         y = 300
         if heights:
             y = 300 + heights[frame]
-        clear_canvas()
-        character.clip_draw(left, bottom, width, height, 400, y, width * 5, height * 5)
-        update_canvas()
+        draw_frame(frames, frame, y)
         frame = (frame + 1) % len(frames)
         delay(frame_delay)
         handle_events()
+    if heights:
+        draw_frame(frames, 0, 300)  
     delay(1.0)
 
 while True:
