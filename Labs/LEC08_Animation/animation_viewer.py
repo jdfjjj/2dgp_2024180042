@@ -26,7 +26,7 @@ def play_animation(bottom, frame_delay):
 
 while True:
     play_animation(287, 0.1) # 걷기
-    play_animation(190, 0.06) # 뛰기
+    play_animation(194, 0.06) # 뛰기
 
 
 close_canvas()
