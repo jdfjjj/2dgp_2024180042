@@ -13,20 +13,20 @@ def handle_events():
             close_canvas()
             exit()
 
-def play_animation(bottom, frame_delay):
+def play_animation(bottom, frame_count, frame_delay):
     frame = 0
-    for i in range(6 * 5):
+    for i in range(frame_count * 5):
         clear_canvas()
         character.clip_draw(frame * 80, bottom, 80, 75, 400, 300, 400, 375)
         update_canvas()
-        frame = (frame + 1) % 6
+        frame = (frame + 1) % frame_count
         delay(frame_delay)
         handle_events()
     delay(1.0)
 
 while True:
-    play_animation(287, 0.1) # 걷기
-    play_animation(194, 0.06) # 뛰기
+    play_animation(287, 6, 0.1) # 걷기
+    play_animation(194, 6, 0.06) # 뛰기
 
 
 close_canvas()
