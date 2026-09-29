@@ -24,4 +24,6 @@ for i in range(6 * 5):
     delay(0.1)
     handle_events()
 
+delay(1, 0)
+
 close_canvas()
