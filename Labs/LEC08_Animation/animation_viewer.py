@@ -9,6 +9,8 @@ run_frames = [(i * 80, 194, 80, 75) for i in range(6)]
 jump_frames = [(i * 80, 107, 80, 75) for i in range(3)]
 death_frames = [(left, 107, 85, 75) for left in (258, 327, 412, 503)]
 
+jump_heights = [0, 80, 120]   # 점프 프레임별로 위로 띄울 높이
+
 def handle_events():
     for event in get_events():
         if event.type == SDL_QUIT:
@@ -18,12 +20,15 @@ def handle_events():
             close_canvas()
             exit()
 
-def play_animation(frames, frame_delay):
+def play_animation(frames, frame_delay, heights=None):
     frame = 0
     for i in range(len(frames) * 5):
         left, bottom, width, height = frames[frame]
+        y = 300
+        if heights:
+            y = 300 + heights[frame]
         clear_canvas()
-        character.clip_draw(left, bottom, width, height, 400, 300, width * 5, height * 5)
+        character.clip_draw(left, bottom, width, height, 400, y, width * 5, height * 5)
         update_canvas()
         frame = (frame + 1) % len(frames)
         delay(frame_delay)
@@ -31,7 +36,7 @@ def play_animation(frames, frame_delay):
     delay(1.0)
 
 while True:
-    play_animation(walk_frames, 0.1)    # 걷기
-    play_animation(run_frames, 0.06)    # 뛰기
-    play_animation(jump_frames, 0.15)   # 점프
-    play_animation(death_frames, 0.2)    # 죽음
+    play_animation(walk_frames, 0.1)                   # 걷기
+    play_animation(run_frames, 0.06)                   # 뛰기
+    play_animation(jump_frames, 0.15, jump_heights)    # 점프
+    play_animation(death_frames, 0.2)                  # 죽음
