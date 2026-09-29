@@ -4,6 +4,10 @@ open_canvas()
 
 character = load_image('hero_spritesheet.png')
 
+walk_frames = [(i * 80, 287, 80, 75) for i in range(6)]
+run_frames = [(i * 80, 194, 80, 75) for i in range(6)]
+jump_frames = [(i * 80, 107, 80, 75) for i in range(3)]
+
 def handle_events():
     for event in get_events():
         if event.type == SDL_QUIT:
@@ -13,21 +17,19 @@ def handle_events():
             close_canvas()
             exit()
 
-def play_animation(bottom, frame_count, frame_delay):
+def play_animation(frames, frame_delay):
     frame = 0
-    for i in range(frame_count * 5):
+    for i in range(len(frames) * 5):
+        left, bottom, width, height = frames[frame]
         clear_canvas()
-        character.clip_draw(frame * 80, bottom, 80, 75, 400, 300, 400, 375)
+        character.clip_draw(left, bottom, width, height, 400, 300, width * 5, height * 5)
         update_canvas()
-        frame = (frame + 1) % frame_count
+        frame = (frame + 1) % len(frames)
         delay(frame_delay)
         handle_events()
     delay(1.0)
 
 while True:
-    play_animation(287, 6, 0.1) # 걷기
-    play_animation(194, 6, 0.06) # 뛰기
-    play_animation(107, 3, 0.15) # 점프
-
-
-close_canvas()
+    play_animation(walk_frames, 0.1)    # 걷기
+    play_animation(run_frames, 0.06)    # 뛰기
+    play_animation(jump_frames, 0.15)   # 점프
