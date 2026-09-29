@@ -16,7 +16,7 @@ def handle_events():
 
 frame = 0
 
-for i in range(6):
+for i in range(6 * 5):
     clear_canvas()
     character.clip_draw(frame * 80, 287, 80, 75, 400, 300, 400, 375)
     update_canvas()
