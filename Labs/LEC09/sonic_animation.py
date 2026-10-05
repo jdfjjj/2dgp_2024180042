@@ -169,11 +169,16 @@ def main() -> None:
     open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     try:
         sprite = load_image(str(SPRITE_PATH))
+        player = AnimationPlayer(ANIMATIONS, perf_counter())
         running = True
         while running:
             running = handle_events()
+            if not running:
+                break
+
+            player.update(perf_counter())
             clear_canvas()
-            draw_frame(sprite, ANIMATIONS[0].frames[0])
+            draw_frame(sprite, player.current_frame)
             update_canvas()
             delay(POLL_INTERVAL)
     finally:
