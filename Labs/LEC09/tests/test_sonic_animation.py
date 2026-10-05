@@ -64,5 +64,37 @@ class PlaybackTests(unittest.TestCase):
         self.assertEqual(player.animation_index, 0)
 
 
+class FrameDataTests(unittest.TestCase):
+    def test_all_animation_frames_stay_within_the_sprite_sheet(self) -> None:
+        self.assertEqual(len(sonic_animation.ANIMATIONS), 11)
+        self.assertEqual(sum(len(item.frames) for item in sonic_animation.ANIMATIONS), 76)
+        for animation in sonic_animation.ANIMATIONS:
+            for frame in animation.frames:
+                with self.subTest(animation=animation.name, frame=frame):
+                    self.assertGreaterEqual(frame.left, 0)
+                    self.assertGreaterEqual(frame.top, 0)
+                    self.assertGreater(frame.width, 0)
+                    self.assertGreater(frame.height, 0)
+                    self.assertLessEqual(frame.left + frame.width, sonic_animation.SHEET_WIDTH)
+                    self.assertLessEqual(frame.top + frame.height, sonic_animation.SHEET_HEIGHT)
+
+    def test_draw_frame_converts_top_origin_and_preserves_scale_ratio(self) -> None:
+        class Image:
+            arguments = None
+
+            def clip_draw(self, *arguments):
+                self.arguments = arguments
+
+        image = Image()
+        frame = sonic_animation.Frame(8, 80, 26, 37)
+        sonic_animation.draw_frame(image, frame)
+
+        self.assertEqual(
+            image.arguments,
+            (8, 408, 26, 37, 600, 400, 26 * 12, 37 * 12),
+        )
+        self.assertEqual(image.arguments[6] / image.arguments[7], 26 / 37)
+
+
 if __name__ == "__main__":
     unittest.main()
