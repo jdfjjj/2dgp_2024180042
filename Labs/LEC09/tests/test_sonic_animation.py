@@ -37,6 +37,32 @@ class PlaybackTests(unittest.TestCase):
         self.assertIsNotNone(self.player.wait_until)
         self.assertEqual(self.player.frame_index, 1)
 
+    def test_wait_then_advances_and_wraps_to_first_action(self) -> None:
+        frames = sonic_animation.ANIMATIONS[0].frames[:2]
+        animations = (
+            sonic_animation.Animation("첫째", frames),
+            sonic_animation.Animation("둘째", frames),
+        )
+        player = sonic_animation.AnimationPlayer(animations, 0.0)
+
+        for _ in range(2 * sonic_animation.REPEAT_COUNT):
+            player.update(player.next_frame_at)
+        wait_end = player.wait_until
+        self.assertIsNotNone(wait_end)
+        self.assertEqual(wait_end, player.next_frame_at - sonic_animation.FRAME_INTERVAL + 1.0)
+
+        player.update(wait_end - 0.001)
+        self.assertEqual(player.animation_index, 0)
+        player.update(wait_end)
+        self.assertEqual(player.animation_index, 1)
+        self.assertEqual(player.frame_index, 0)
+        self.assertEqual(player.completed_repeats, 0)
+
+        for _ in range(2 * sonic_animation.REPEAT_COUNT):
+            player.update(player.next_frame_at)
+        player.update(player.wait_until)
+        self.assertEqual(player.animation_index, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
