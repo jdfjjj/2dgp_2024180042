@@ -115,7 +115,18 @@ class AnimationPlayer:
         return self.current_animation.frames[self.frame_index]
 
     def update(self, now: float) -> None:
-        if self.wait_until is not None or now < self.next_frame_at:
+        if self.wait_until is not None:
+            if now < self.wait_until:
+                return
+
+            self.animation_index = (self.animation_index + 1) % len(self.animations)
+            self.frame_index = 0
+            self.completed_repeats = 0
+            self.wait_until = None
+            self.next_frame_at = now + FRAME_INTERVAL
+            return
+
+        if now < self.next_frame_at:
             return
 
         self.next_frame_at = now + FRAME_INTERVAL
