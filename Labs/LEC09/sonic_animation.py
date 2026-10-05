@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import sys
 from pathlib import Path
+from time import perf_counter
 
 from pico2d import *
 
@@ -8,6 +9,9 @@ from pico2d import *
 WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800
 POLL_INTERVAL = 0.01
+FRAME_INTERVAL = 0.08
+REPEAT_COUNT = 5
+ACTION_PAUSE = 1.0
 SHEET_WIDTH = 399
 SHEET_HEIGHT = 525
 FRAME_SCALE = 8
@@ -84,6 +88,31 @@ ANIMATIONS = (
         (96, 427, 23, 39), (125, 427, 23, 39),
     )),
 )
+
+
+class AnimationPlayer:
+    def __init__(
+        self,
+        animations: tuple[Animation, ...],
+        start_time: float,
+    ) -> None:
+        if not animations or any(not animation.frames for animation in animations):
+            raise ValueError("재생 목록과 각 동작에는 프레임이 하나 이상 필요합니다.")
+
+        self.animations = animations
+        self.animation_index = 0
+        self.frame_index = 0
+        self.completed_repeats = 0
+        self.next_frame_at = start_time + FRAME_INTERVAL
+        self.wait_until: float | None = None
+
+    @property
+    def current_animation(self) -> Animation:
+        return self.animations[self.animation_index]
+
+    @property
+    def current_frame(self) -> Frame:
+        return self.current_animation.frames[self.frame_index]
 
 
 def handle_events() -> bool:
