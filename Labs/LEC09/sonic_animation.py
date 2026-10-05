@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import sys
 from pathlib import Path
 
@@ -10,8 +11,24 @@ POLL_INTERVAL = 0.01
 SHEET_WIDTH = 399
 SHEET_HEIGHT = 525
 FRAME_SCALE = 8
-PREVIEW_FRAME = (1, 39, 29, 39)
 SPRITE_PATH = Path(__file__).resolve().with_name("sonic-sprite.png")
+
+
+@dataclass(frozen=True)
+class Frame:
+    left: int
+    top: int
+    width: int
+    height: int
+
+
+@dataclass(frozen=True)
+class Animation:
+    name: str
+    frames: tuple[Frame, ...]
+
+
+PREVIEW_FRAME = Frame(1, 39, 29, 39)
 
 
 def handle_events() -> bool:
@@ -21,18 +38,17 @@ def handle_events() -> bool:
     return True
 
 
-def draw_frame(sprite, frame: tuple[int, int, int, int]) -> None:
-    left, top, width, height = frame
-    source_bottom = SHEET_HEIGHT - top - height
+def draw_frame(sprite, frame: Frame) -> None:
+    source_bottom = SHEET_HEIGHT - frame.top - frame.height
     sprite.clip_draw(
-        left,
+        frame.left,
         source_bottom,
-        width,
-        height,
+        frame.width,
+        frame.height,
         WINDOW_WIDTH // 2,
         WINDOW_HEIGHT // 2,
-        width * FRAME_SCALE,
-        height * FRAME_SCALE,
+        frame.width * FRAME_SCALE,
+        frame.height * FRAME_SCALE,
     )
 
 
