@@ -14,7 +14,7 @@ REPEAT_COUNT = 5
 ACTION_PAUSE = 1.0
 SHEET_WIDTH = 399
 SHEET_HEIGHT = 525
-FRAME_SCALE = 8
+FRAME_SCALE = 12
 SPRITE_PATH = Path(__file__).resolve().with_name("sonic-sprite.png")
 
 
