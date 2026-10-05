@@ -1,12 +1,26 @@
+import io
 import importlib.util
 import sys
+import tempfile
 import types
 import unittest
+from contextlib import redirect_stderr
 from pathlib import Path
+from unittest.mock import patch
 
 
 _pico2d_stub = types.ModuleType("pico2d")
 _pico2d_stub.SDL_QUIT = 1
+for _name in (
+    "open_canvas",
+    "load_image",
+    "get_events",
+    "clear_canvas",
+    "update_canvas",
+    "delay",
+    "close_canvas",
+):
+    setattr(_pico2d_stub, _name, lambda *arguments: None)
 sys.modules.setdefault("pico2d", _pico2d_stub)
 
 _source = Path(__file__).resolve().parents[1] / "sonic_animation.py"
@@ -94,6 +108,42 @@ class FrameDataTests(unittest.TestCase):
             (8, 408, 26, 37, 600, 400, 26 * 12, 37 * 12),
         )
         self.assertEqual(image.arguments[6] / image.arguments[7], 26 / 37)
+
+
+class WindowLifecycleTests(unittest.TestCase):
+    def test_missing_sprite_reports_error_before_opening_window(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            missing_sprite = Path(directory) / "missing.png"
+            error_output = io.StringIO()
+            with (
+                patch.object(sonic_animation, "SPRITE_PATH", missing_sprite),
+                patch.object(sonic_animation, "open_canvas") as open_canvas,
+                redirect_stderr(error_output),
+            ):
+                sonic_animation.main()
+
+        open_canvas.assert_not_called()
+        self.assertIn("스프라이트 시트를 찾을 수 없습니다", error_output.getvalue())
+
+    def test_window_close_event_releases_canvas(self) -> None:
+        class Image:
+            def clip_draw(self, *arguments):
+                pass
+
+        event_batches = [[], [types.SimpleNamespace(type=sonic_animation.SDL_QUIT)]]
+        with (
+            patch.object(sonic_animation, "open_canvas") as open_canvas,
+            patch.object(sonic_animation, "load_image", return_value=Image()),
+            patch.object(sonic_animation, "get_events", side_effect=event_batches),
+            patch.object(sonic_animation, "clear_canvas"),
+            patch.object(sonic_animation, "update_canvas"),
+            patch.object(sonic_animation, "delay"),
+            patch.object(sonic_animation, "close_canvas") as close_canvas,
+        ):
+            sonic_animation.main()
+
+        open_canvas.assert_called_once_with(1200, 800)
+        close_canvas.assert_called_once()
 
 
 if __name__ == "__main__":
