@@ -30,6 +30,7 @@ class Frame:
 class Animation:
     name: str
     frames: tuple[Frame, ...]
+    horizontal_speed: float = 0.0
 
 
 def frame_sequence(*rectangles: tuple[int, int, int, int]) -> tuple[Frame, ...]:
@@ -38,18 +39,18 @@ def frame_sequence(*rectangles: tuple[int, int, int, int]) -> tuple[Frame, ...]:
 
 # Rectangles use image coordinates from the top-left and follow visible alpha bounds.
 ANIMATIONS = (
-    Animation("동작 01", frame_sequence(
+    Animation("달리기 01", frame_sequence(
         (1, 39, 29, 39), (31, 40, 26, 38), (58, 39, 28, 39),
         (86, 40, 30, 38), (118, 40, 30, 38), (150, 40, 30, 38),
         (182, 40, 29, 38), (211, 39, 29, 38), (240, 39, 29, 39),
         (270, 45, 24, 32), (302, 51, 29, 26),
-    )),
-    Animation("동작 02", frame_sequence(
+    ), horizontal_speed=160.0),
+    Animation("달리기 02", frame_sequence(
         (8, 80, 26, 37), (37, 80, 27, 37), (65, 80, 31, 37),
         (97, 80, 37, 37), (135, 80, 32, 35), (170, 79, 32, 38),
         (206, 79, 26, 38), (238, 79, 24, 38), (263, 79, 30, 38),
         (295, 79, 36, 38), (334, 80, 32, 35), (370, 79, 29, 38),
-    )),
+    ), horizontal_speed=160.0),
     Animation("동작 03", frame_sequence(
         (1, 124, 33, 40), (39, 124, 35, 39), (89, 125, 35, 38),
         (130, 121, 34, 42), (181, 122, 34, 41), (228, 122, 33, 40),
@@ -89,6 +90,10 @@ ANIMATIONS = (
     )),
 )
 
+MAX_DISPLAY_WIDTH = max(
+    frame.width for animation in ANIMATIONS for frame in animation.frames
+) * FRAME_SCALE
+
 
 class AnimationPlayer:
     def __init__(
@@ -116,6 +121,10 @@ class AnimationPlayer:
         self.completed_repeats = 0
         self.next_frame_at = start_time + FRAME_INTERVAL
         self.wait_until: float | None = None
+        self.left_position = MAX_DISPLAY_WIDTH / 2
+        self.right_position = WINDOW_WIDTH - self.left_position
+        self.x = self.left_position
+        self.last_update_at = start_time
 
     @property
     def current_animation(self) -> Animation:
@@ -127,6 +136,7 @@ class AnimationPlayer:
 
     def update(self, now: float) -> None:
         if self.wait_until is not None:
+            self.last_update_at = now
             if now < self.wait_until:
                 return
 
@@ -135,7 +145,19 @@ class AnimationPlayer:
             self.completed_repeats = 0
             self.wait_until = None
             self.next_frame_at = now + FRAME_INTERVAL
+            if self.current_animation.horizontal_speed:
+                self.x = self.left_position
             return
+
+        elapsed = max(0.0, now - self.last_update_at)
+        self.last_update_at = now
+        if self.current_animation.horizontal_speed:
+            distance = self.right_position - self.left_position
+            self.x = self.left_position + (
+                self.x
+                - self.left_position
+                + self.current_animation.horizontal_speed * elapsed
+            ) % distance
 
         if now < self.next_frame_at:
             return
@@ -158,14 +180,14 @@ def handle_events() -> bool:
     return True
 
 
-def draw_frame(sprite, frame: Frame) -> None:
+def draw_frame(sprite, frame: Frame, x: float) -> None:
     source_bottom = SHEET_HEIGHT - frame.top - frame.height
     sprite.clip_draw(
         frame.left,
         source_bottom,
         frame.width,
         frame.height,
-        WINDOW_WIDTH // 2,
+        x,
         WINDOW_HEIGHT // 2,
         frame.width * FRAME_SCALE,
         frame.height * FRAME_SCALE,
@@ -189,7 +211,7 @@ def main() -> None:
 
             player.update(perf_counter())
             clear_canvas()
-            draw_frame(sprite, player.current_frame)
+            draw_frame(sprite, player.current_frame, player.x)
             update_canvas()
             delay(POLL_INTERVAL)
     finally:

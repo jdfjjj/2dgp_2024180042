@@ -109,11 +109,11 @@ class FrameDataTests(unittest.TestCase):
 
         image = Image()
         frame = sonic_animation.Frame(8, 80, 26, 37)
-        sonic_animation.draw_frame(image, frame)
+        sonic_animation.draw_frame(image, frame, 500)
 
         self.assertEqual(
             image.arguments,
-            (8, 408, 26, 37, 600, 400, 26 * 12, 37 * 12),
+            (8, 408, 26, 37, 500, 400, 26 * 12, 37 * 12),
         )
         self.assertEqual(image.arguments[6] / image.arguments[7], 26 / 37)
 
