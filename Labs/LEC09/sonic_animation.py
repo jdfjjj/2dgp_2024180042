@@ -28,7 +28,34 @@ class Animation:
     frames: tuple[Frame, ...]
 
 
-PREVIEW_FRAME = Frame(1, 39, 29, 39)
+def frame_sequence(*rectangles: tuple[int, int, int, int]) -> tuple[Frame, ...]:
+    return tuple(Frame(*rectangle) for rectangle in rectangles)
+
+
+# Rectangles use image coordinates from the top-left and follow visible alpha bounds.
+ANIMATIONS = (
+    Animation("동작 01", frame_sequence(
+        (1, 39, 29, 39), (31, 40, 26, 38), (58, 39, 28, 39),
+        (86, 40, 30, 38), (118, 40, 30, 38), (150, 40, 30, 38),
+        (182, 40, 29, 38), (211, 39, 29, 38), (240, 39, 29, 39),
+        (270, 45, 24, 32), (302, 51, 29, 26),
+    )),
+    Animation("동작 02", frame_sequence(
+        (8, 80, 26, 37), (37, 80, 27, 37), (65, 80, 31, 37),
+        (97, 80, 37, 37), (135, 80, 32, 35), (170, 79, 32, 38),
+        (206, 79, 26, 38), (238, 79, 24, 38), (263, 79, 30, 38),
+        (295, 79, 36, 38), (334, 80, 32, 35), (370, 79, 29, 38),
+    )),
+    Animation("동작 03", frame_sequence(
+        (1, 124, 33, 40), (39, 124, 35, 39), (89, 125, 35, 38),
+        (130, 121, 34, 42), (181, 122, 34, 41), (228, 122, 33, 40),
+    )),
+    Animation("동작 04", frame_sequence(
+        (1, 169, 29, 30), (35, 167, 29, 31), (67, 169, 30, 29),
+        (98, 169, 31, 29), (131, 168, 29, 30), (162, 168, 29, 31),
+        (193, 170, 30, 29), (230, 168, 31, 30), (268, 170, 30, 30),
+    )),
+)
 
 
 def handle_events() -> bool:
@@ -64,7 +91,7 @@ def main() -> None:
         while running:
             running = handle_events()
             clear_canvas()
-            draw_frame(sprite, PREVIEW_FRAME)
+            draw_frame(sprite, ANIMATIONS[0].frames[0])
             update_canvas()
             delay(POLL_INTERVAL)
     finally:
