@@ -51,6 +51,14 @@ class PlaybackTests(unittest.TestCase):
         self.assertIsNotNone(self.player.wait_until)
         self.assertEqual(self.player.frame_index, 1)
 
+    def test_frame_changes_only_after_its_interval(self) -> None:
+        first_frame = self.player.current_frame
+        self.player.update(self.player.next_frame_at - 0.001)
+        self.assertEqual(self.player.current_frame, first_frame)
+
+        self.player.update(self.player.next_frame_at)
+        self.assertEqual(self.player.frame_index, 1)
+
     def test_wait_then_advances_and_wraps_to_first_action(self) -> None:
         frames = sonic_animation.ANIMATIONS[0].frames[:2]
         animations = (
