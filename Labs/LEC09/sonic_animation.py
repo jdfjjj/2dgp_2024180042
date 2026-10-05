@@ -121,8 +121,12 @@ class AnimationPlayer:
         self.next_frame_at = now + FRAME_INTERVAL
         self.frame_index += 1
         if self.frame_index == len(self.current_animation.frames):
-            self.frame_index = 0
             self.completed_repeats += 1
+            if self.completed_repeats == REPEAT_COUNT:
+                self.frame_index -= 1
+                self.wait_until = now + ACTION_PAUSE
+                return
+            self.frame_index = 0
 
 
 def handle_events() -> bool:
