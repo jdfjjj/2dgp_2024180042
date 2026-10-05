@@ -114,6 +114,13 @@ class AnimationPlayer:
     def current_frame(self) -> Frame:
         return self.current_animation.frames[self.frame_index]
 
+    def update(self, now: float) -> None:
+        if self.wait_until is not None or now < self.next_frame_at:
+            return
+
+        self.next_frame_at = now + FRAME_INTERVAL
+        self.frame_index = (self.frame_index + 1) % len(self.current_animation.frames)
+
 
 def handle_events() -> bool:
     for event in get_events():
