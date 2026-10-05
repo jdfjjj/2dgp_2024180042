@@ -119,7 +119,10 @@ class AnimationPlayer:
             return
 
         self.next_frame_at = now + FRAME_INTERVAL
-        self.frame_index = (self.frame_index + 1) % len(self.current_animation.frames)
+        self.frame_index += 1
+        if self.frame_index == len(self.current_animation.frames):
+            self.frame_index = 0
+            self.completed_repeats += 1
 
 
 def handle_events() -> bool:
