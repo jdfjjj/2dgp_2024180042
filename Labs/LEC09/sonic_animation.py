@@ -98,6 +98,17 @@ class AnimationPlayer:
     ) -> None:
         if not animations or any(not animation.frames for animation in animations):
             raise ValueError("재생 목록과 각 동작에는 프레임이 하나 이상 필요합니다.")
+        for animation in animations:
+            for frame in animation.frames:
+                if (
+                    frame.left < 0
+                    or frame.top < 0
+                    or frame.width <= 0
+                    or frame.height <= 0
+                    or frame.left + frame.width > SHEET_WIDTH
+                    or frame.top + frame.height > SHEET_HEIGHT
+                ):
+                    raise ValueError(f"{animation.name}의 프레임 영역이 스프라이트 시트 범위를 벗어납니다.")
 
         self.animations = animations
         self.animation_index = 0
