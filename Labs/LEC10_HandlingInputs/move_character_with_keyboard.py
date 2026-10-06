@@ -52,6 +52,8 @@ def update_character():
 
 
 def get_action():
+    if dir_x == 0 and dir_y == 0:
+        return IDLE_RIGHT if facing == 1 else IDLE_LEFT
     return RUN_RIGHT if facing == 1 else RUN_LEFT
 
 
