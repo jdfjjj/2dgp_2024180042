@@ -5,6 +5,7 @@ open_canvas(TUK_WIDTH, TUK_HEIGHT)
 tuk_ground = load_image('TUK_GROUND.png')
 character = load_image('animation_sheet.png')
 
+RUN_LEFT, RUN_RIGHT, IDLE_LEFT, IDLE_RIGHT = 0, 1, 2, 3
 SPEED = 10
 
 
@@ -60,7 +61,7 @@ while running:
     clear_canvas()
 
     tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+    character.clip_draw(frame * 100, 100 * RUN_RIGHT, 100, 100, x, y)
 
     update_canvas()
     handle_events()
