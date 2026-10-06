@@ -51,6 +51,10 @@ def update_character():
     y += dir_y * SPEED
 
 
+def get_action():
+    return RUN_RIGHT if facing == 1 else RUN_LEFT
+
+
 running = True
 frame = 0
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
@@ -61,7 +65,7 @@ while running:
     clear_canvas()
 
     tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    character.clip_draw(frame * 100, 100 * RUN_RIGHT, 100, 100, x, y)
+    character.clip_draw(frame * 100, 100 * get_action(), 100, 100, x, y)
 
     update_canvas()
     handle_events()
