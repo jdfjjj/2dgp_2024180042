@@ -5,6 +5,8 @@ open_canvas(TUK_WIDTH, TUK_HEIGHT)
 tuk_ground = load_image('TUK_GROUND.png')
 character = load_image('animation_sheet.png')
 
+SPEED = 10
+
 
 def handle_events():
     global running
@@ -49,8 +51,8 @@ while running:
 
     update_canvas()
     handle_events()
-    x += dir_x * 10
-    y += dir_y * 10
+    x += dir_x * SPEED
+    y += dir_y * SPEED
     frame = (frame + 1) % 8
     delay(0.05)
 
