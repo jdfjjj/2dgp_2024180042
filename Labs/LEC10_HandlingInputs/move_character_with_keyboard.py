@@ -38,6 +38,13 @@ def handle_events():
                 dir_y += 1
 
 
+def update_character():
+    global x, y
+
+    x += dir_x * SPEED
+    y += dir_y * SPEED
+
+
 running = True
 frame = 0
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
@@ -51,8 +58,7 @@ while running:
 
     update_canvas()
     handle_events()
-    x += dir_x * SPEED
-    y += dir_y * SPEED
+    update_character()
     frame = (frame + 1) % 8
     delay(0.05)
 
