@@ -50,6 +50,8 @@ def update_character():
     x += dir_x * SPEED
     y += dir_y * SPEED
 
+    x = clamp(25, x, TUK_WIDTH - 25)
+
 
 def get_action():
     if dir_x == 0 and dir_y == 0:
