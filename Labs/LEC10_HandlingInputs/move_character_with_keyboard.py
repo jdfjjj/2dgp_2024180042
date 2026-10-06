@@ -7,6 +7,8 @@ character = load_image('animation_sheet.png')
 
 RUN_LEFT, RUN_RIGHT, IDLE_LEFT, IDLE_RIGHT = 0, 1, 2, 3
 SPEED = 10
+MARGIN_X = 25
+MARGIN_Y = 50
 
 
 def handle_events():
@@ -50,8 +52,8 @@ def update_character():
     x += dir_x * SPEED
     y += dir_y * SPEED
 
-    x = clamp(25, x, TUK_WIDTH - 25)
-    y = clamp(50, y, TUK_HEIGHT - 50)
+    x = clamp(MARGIN_X, x, TUK_WIDTH - MARGIN_X)
+    y = clamp(MARGIN_Y, y, TUK_HEIGHT - MARGIN_Y)
 
 
 def get_action():
