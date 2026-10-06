@@ -51,6 +51,7 @@ def update_character():
     y += dir_y * SPEED
 
     x = clamp(25, x, TUK_WIDTH - 25)
+    y = clamp(50, y, TUK_HEIGHT - 50)
 
 
 def get_action():
