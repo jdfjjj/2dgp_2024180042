@@ -18,11 +18,13 @@ def handle_events():
 
 
 running = True
+x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 
 while running:
     clear_canvas()
 
     tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+    character.clip_draw(0, 100 * 1, 100, 100, x, y)
 
     update_canvas()
     handle_events()
