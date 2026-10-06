@@ -39,7 +39,12 @@ def handle_events():
 
 
 def update_character():
-    global x, y
+    global x, y, facing
+
+    if dir_x > 0:
+        facing = 1
+    elif dir_x < 0:
+        facing = -1
 
     x += dir_x * SPEED
     y += dir_y * SPEED
@@ -49,6 +54,7 @@ running = True
 frame = 0
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 dir_x, dir_y = 0, 0
+facing = 1
 
 while running:
     clear_canvas()
