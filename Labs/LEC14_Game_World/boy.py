@@ -5,6 +5,9 @@ from sdl2 import (SDL_KEYDOWN, SDL_KEYUP, SDLK_LEFT, SDLK_RIGHT,
                   SDLK_SPACE)
 from transitions import Machine
 
+import game_world
+from ball import Ball
+
 
 class Boy:
     def __init__(self):
@@ -45,9 +48,11 @@ class Boy:
 
     def handle_event(self, event):
         if (event.type == SDL_KEYDOWN and
-                event.key == SDLK_SPACE and
-                self.state == 'SLEEP'):
-            self.wake_up()
+                event.key == SDLK_SPACE):
+            if self.state == 'SLEEP':
+                self.wake_up()
+            elif self.state in ('IDLE', 'RUN'):
+                self.shoot()
             return
 
         if (event.type not in (SDL_KEYDOWN, SDL_KEYUP) or
@@ -98,3 +103,10 @@ class Boy:
             row = 300 if self.face_dir == 1 else 200
             self.image.clip_draw(self.frame * 100, row, 100, 100,
                                  self.x, self.y)
+
+    def shoot(self):
+        direction = '오른쪽' if self.face_dir == 1 else '왼쪽'
+        print(f'{direction}으로 발사!')
+        x = self.x + self.face_dir * 50
+        x = max(10, min(get_canvas_width() - 10, x))
+        game_world.add_object(Ball(x, self.y, self.face_dir))
